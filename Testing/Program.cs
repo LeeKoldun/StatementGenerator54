@@ -24,6 +24,8 @@ namespace Testing
             var students = con.Students("students.json");
             var teachers = con.Teachers("teachers.json");
 
+            Console.Write("Выберите ведомость(1-экзаменационная;2-зачетная)");
+            int index = Convert.ToInt32(Console.ReadLine());
 
             Console.Write("Введите группу: ");
             string groupIn = Console.ReadLine();
@@ -44,13 +46,22 @@ namespace Testing
 
             string subj = teachers.First(e => e.FullSubjectName.Contains(disciplineIn)).FullSubjectName;
 
-            TextChanger(teacher, subj, group, specialization, course, filteredStudents.ToList());
+            TextChanger(teacher, subj, group, specialization, course, filteredStudents.ToList(), index);
 
         }
-        public static void TextChanger(string teacher, string subject, string group, string special, string course, List<Student> students)
+        public static void TextChanger(string teacher, string subject, string group, string special, string course, List<Student> students
+            ,int index)
         {
-
-            var helper = new WordHelper("Экзаменационная ведомость.doc");
+            string file;
+            if (index == 1)
+            {
+                file = "Экзаменационная ведомость.doc";
+            }
+            else
+            {
+                file = "Зачётная ведомость.doc";
+            }
+            var helper = new WordHelper(file);
 
             var items = new Dictionary<string, string>()
             {
