@@ -20,7 +20,7 @@
 		</Grid.Background>
 		<Panel Grid.Row="0">
 		</Panel>
-		<DockPanel Grid.Row="1" VerticalAlignment="Stretch" Classes.center="{Binding IsCenter}" Classes.left="{Binding IsLeft}">
+		<DockPanel Grid.Row="1" VerticalAlignment="Stretch" Classes.center="{Binding !IsLeft}" Classes.left="{Binding IsLeft}">
 			<Panel.Styles>
 				<Style Selector="DockPanel.center">
 					<Setter Property="HorizontalAlignment" Value="Center"/>
@@ -77,16 +77,14 @@
 						<Setter Property="Background" Value="White"/>
 						<Setter Property="BorderThickness" Value="1"/>
 						<Setter Property="BorderBrush" Value="Orange"/>
-
-
 					</Style>
 				</Border.Styles>
 				<StackPanel Spacing="15" Orientation="Vertical" HorizontalAlignment="Center">
 					<Image Margin="10" Width="100" Height="100" Source="/Assets/KS.png" IsVisible="{Binding IsLeft}"/>
-					<Button Command="{Binding Test}" Background="Orange">Выбрать файл студентов</Button>
-					<Button Command="{Binding Test}" Background="Orange">Выбрать файл преподавателей</Button>
-					<Button Command="{Binding Test}" Background="Orange">Выбрать файл учебных планов</Button>
-					<Button Command="{Binding Test}" Background="Orange">Выбрать файл тарификации</Button>
+					<Button Command="{Binding StudentCommand}" Background="Orange">Выбрать файл студентов</Button>
+					<Button Command="{Binding TeacherCommand}" Background="Orange">Выбрать файл преподавателей</Button>
+					<Button Command="{Binding TariffCommand}" Background="Orange">Выбрать файл учебных планов</Button>
+					<Button Command="{Binding PlanCommand}" Background="Orange">Выбрать файл тарификации</Button>
 				</StackPanel>
 			</Border>
 			<Panel  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="25" IsVisible="{Binding IsLeft}">
@@ -114,7 +112,7 @@
 							</ComboBoxItem>
 						</ComboBox>
 					</StackPanel>
-					<Button Background="#1B44B4" FontSize="20" Foreground="White" CornerRadius="20" MinHeight="50"  FontWeight="Bold" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Bottom" HorizontalAlignment="Stretch">
+					<Button Command="{Binding StartGenerationCommand}" Background="#1B44B4" FontSize="20" Foreground="White" CornerRadius="20" MinHeight="50"  FontWeight="Bold" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Bottom" HorizontalAlignment="Stretch">
 						<Button.Styles>
 							<Style Selector="Button:pointerover /template/ ContentPresenter">
 								<Setter Property="Background" Value="White"/>
