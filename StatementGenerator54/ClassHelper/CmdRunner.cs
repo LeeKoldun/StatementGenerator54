@@ -10,7 +10,7 @@ namespace StatementGenerator54.ClassHelper
     public class CmdRunner
     {
         public const string STUDENT_PARSER = "./Parser/StudentParser/main.exe";
-        public const string TEACHER_PARSER = "./Parser/StudentParser/main.exe";
+        public const string TEACHER_PARSER = "./Parser/TeacherAndSubjectsParser/main.exe";
         public static void Execute(string cmdPath, string filePath, string listSheet)
         {
             // Создаем новый процесс для командной оболочки cmd

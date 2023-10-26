@@ -23,6 +23,8 @@ namespace StatementGenerator54.Model
 
 
             return teachers;
+
+
         }
 
         public List<Student> Students(string jsonPath)
@@ -38,6 +40,26 @@ namespace StatementGenerator54.Model
 
 
             return teachers;
+        }
+
+        public List<Student> GroupList(string jsonPath)
+        {
+            string finalJson = "";
+            using (StreamReader streamReader = new StreamReader(jsonPath))
+            {
+                finalJson = streamReader.ReadToEnd();
+            }
+
+            var groups = JsonConvert.DeserializeObject<List<Student>>(finalJson).GroupBy(x => x.Group);
+
+            List<Student> groupsList = new List<Student>();
+
+            foreach (var group in groupsList)
+            {
+                groupsList.Add(group);
+            }
+
+            return groupsList;
         }
     }
 }

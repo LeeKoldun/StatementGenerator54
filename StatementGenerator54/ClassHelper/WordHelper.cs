@@ -1,4 +1,5 @@
 ﻿using Microsoft.Office.Interop.Word;
+using StatementGenerator54.Model;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -9,7 +10,7 @@ using word = Microsoft.Office.Interop.Word;
 
 namespace StatementGenerator54.ClassHelper
 {
-    internal class WordHelper
+    public class WordHelper
     {
         private FileInfo _fileInfo;
         public WordHelper(string fileName)
@@ -25,8 +26,22 @@ namespace StatementGenerator54.ClassHelper
             }
         }
 
-        internal void Process(Dictionary<string,string> items)
+        public void Process(Dictionary<string,string> items, List<Student> students)
         {
+            int studCount = students.Count;
+            int lastIndex = 1;
+            Dictionary<string, string> studs = new Dictionary<string, string>{ };
+
+            for (int i = 1; i <= studCount; i++)
+            {
+                items.Add($"<student{i}>", students[i - 1].FullName);
+                lastIndex = i;
+            }
+
+            for (int i = lastIndex + 1; i <= 26; i++)
+            {
+                items.Add($"<student{i}>", "");
+            }
 
             ProcessKiller processKiller = new ProcessKiller();
             processKiller.CreateDontKillProcess();
