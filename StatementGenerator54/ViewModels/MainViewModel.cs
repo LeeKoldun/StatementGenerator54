@@ -2,7 +2,9 @@
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Platform.Storage;
 using ReactiveUI;
+using StatementGenerator54.Model;
 using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reactive;
 using System.Threading.Tasks;
@@ -19,6 +21,17 @@ public class MainViewModel : ViewModelBase
     public string TeachersPath => _teachersPath.Value;
     public string TariffPath => _tariffPath.Value;
     public string PlanPath => _planPath.Value;
+
+    public ObservableCollection<string> Groups = new();
+    public ObservableCollection<string> Subject = new();
+    public ObservableCollection<Teacher> Teacher = new();
+
+
+
+    public bool Option1Enabled {get;set;}
+    public bool Option2Enabled { get; set; }
+    public bool Option3Enabled {get;set;}
+    public bool Option4Enabled { get; set; }
 
     public bool IsLeft { get; set; } = false;
 

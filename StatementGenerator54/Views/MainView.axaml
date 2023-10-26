@@ -90,23 +90,23 @@
 			<Panel  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="25" IsVisible="{Binding IsLeft}">
 				<Panel HorizontalAlignment="Center">
 					<StackPanel Spacing="10" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Left">
-						<RadioButton GroupName="type" Content="Ведомость по зачётной работе" FontWeight="Medium"/>
-						<RadioButton GroupName="type" Content="Ведомость по курсовой работе" FontWeight="Medium"/>
-						<RadioButton GroupName="type" Content="Ведомость по комплексной экзаменационной работе" FontWeight="Medium"/>
-						<RadioButton GroupName="type" Content="Ведомость по экзаменационной работе" FontWeight="Medium"/>
+						<RadioButton IsChecked="{Binding Option1Enabled, Mode=TwoWay}" GroupName="type" Content="Ведомость по зачётной работе" FontWeight="Medium"/>
+						<RadioButton IsChecked="{Binding Option2Enabled, Mode=TwoWay}" GroupName="type" Content="Ведомость по курсовой работе" FontWeight="Medium"/>
+						<RadioButton IsChecked="{Binding Option3Enabled, Mode=TwoWay}" GroupName="type" Content="Ведомость по комплексной экзаменационной работе" FontWeight="Medium"/>
+						<RadioButton IsChecked="{Binding Option4Enabled, Mode=TwoWay}" GroupName="type" Content="Ведомость по экзаменационной работе" FontWeight="Medium"/>
 					</StackPanel>
 					<StackPanel Spacing="10" Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Stretch">
-						<ComboBox HorizontalAlignment="Stretch" SelectedIndex="0" MinWidth="100">
+						<ComboBox ItemsSource="{Binding Groups}" HorizontalAlignment="Stretch" SelectedIndex="0" MinWidth="100">
 							<ComboBoxItem>
 								<TextBlock>Группа</TextBlock>
 							</ComboBoxItem>
 						</ComboBox>
-						<ComboBox HorizontalAlignment="Stretch" SelectedIndex="0" MinWidth="100">
+						<ComboBox ItemsSource="{Binding Subject}" HorizontalAlignment="Stretch" SelectedIndex="0" MinWidth="100">
 							<ComboBoxItem>
 								<TextBlock>Предмет</TextBlock>
 							</ComboBoxItem>
 						</ComboBox>
-						<ComboBox HorizontalAlignment="Stretch" SelectedIndex="0" MinWidth="100">
+						<ComboBox ItemsSource="{Binding Teacher}" HorizontalAlignment="Stretch" SelectedIndex="0" MinWidth="100">
 							<ComboBoxItem>
 								<TextBlock>Преподаватель</TextBlock>
 							</ComboBoxItem>

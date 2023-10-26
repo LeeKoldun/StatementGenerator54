@@ -17,7 +17,6 @@ namespace StatementGenerator54.Model
             {
                 finalJson = streamReader.ReadToEnd();
             }
-
             List<Teacher> teachers = new List<Teacher>();
             teachers = JsonConvert.DeserializeObject<List<Teacher>>(finalJson);
 
@@ -32,7 +31,6 @@ namespace StatementGenerator54.Model
             {
                 finalJson = streamReader.ReadToEnd();
             }
-
             List<Student> teachers = new List<Student>();
             teachers = JsonConvert.DeserializeObject<List<Student>>(finalJson);
 
