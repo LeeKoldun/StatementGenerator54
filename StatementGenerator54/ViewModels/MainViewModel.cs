@@ -27,7 +27,12 @@ public class MainViewModel : ViewModelBase
     public string TariffPath { get; set; }
     public bool TariffLoaded { get; set; }
 
+    public List<string> GroupsList { get; set; }
+    public List<string> TeachersList { get; set; }
+    public List<string> SubjectsList { get; set; }
+
     public List<Student> Students { get; set; }
+    public List<Teacher> Teachers { get; set; }
 
     public ReactiveCommand<string, Unit> Test { get; set; }
     public MainViewModel() {
@@ -53,10 +58,14 @@ public class MainViewModel : ViewModelBase
             switch(filePath) {
                 case "student":
                     StudentsPath = pickResult.First().Path.AbsolutePath;
-                    LoadStudents();
+                    await LoadData(CmdRunner.ParserType.StudentParser, "./student.json");
+                    SetGroups();
                 break;
                 case "tariff":
                     TariffPath = pickResult.First().Path.AbsolutePath;
+                    await LoadData(CmdRunner.ParserType.TeacherParser, "./teacher.json");
+                    SetTeachers();
+                    SetSubjects();
                 break;
                 default:
                     throw new Exception("INVALID PARAMETER!");
@@ -70,26 +79,59 @@ public class MainViewModel : ViewModelBase
         }
     }
 
-    private async Task LoadStudents() {
+    private void SetGroups() {
+        GroupsList = Students.DistinctBy(e => e.Group)
+            .Select(e => e.Group)
+            .Order()
+            .ToList();
+        this.RaisePropertyChanged(nameof(GroupsList));
+    }
+
+    private void SetTeachers() {
+        TeachersList = Teachers.DistinctBy(e => e.FullName)
+            .Select(e => e.FullName)
+            .Order()
+            .ToList();
+        this.RaisePropertyChanged(nameof(TeachersList));
+    }
+
+    private void SetSubjects() {
+        SubjectsList = Teachers.DistinctBy(e => e.FullSubjectName)
+            .Select(e => e.FullSubjectName)
+            .Order()
+            .ToList();
+        this.RaisePropertyChanged(nameof(SubjectsList));
+    }
+
+    private async Task LoadData(CmdRunner.ParserType parserType, string jsonPath) {
         var mbox = GetPromtBox();
         var desk = App.Current!.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime;
         var result = await mbox.ShowWindowDialogAsync(desk.MainWindow);
 
         if(result != "Подтвердить" || string.IsNullOrEmpty(mbox.InputValue)) return;
 
-        CmdRunner.Execute(CmdRunner.STUDENT_PARSER, StudentsPath, mbox.InputValue);
+        string filePath;
+        if(parserType == CmdRunner.ParserType.StudentParser) filePath = StudentsPath;
+        else filePath = TariffPath;
+        CmdRunner.Execute(parserType, filePath, mbox.InputValue);
 
-        if(!File.Exists("./student.json")) return;
+        if(!File.Exists(jsonPath)) return;
 
-        Students = new Context().Students("./student.json");
+        if(parserType == CmdRunner.ParserType.StudentParser) {
+            Students = new Context().Students(jsonPath);
+        }
+        else {
+            Teachers = new Context().Teachers(jsonPath);
+        }
     }
 
     private IMsBox<string> GetPromtBox() {
         return MessageBoxManager.GetMessageBoxCustom(
             new MessageBoxCustomParams() {
                 Icon = MsBox.Avalonia.Enums.Icon.Info,
-                ContentHeader = "Впишите название листа",
                 ContentTitle = "Еще кое-что...",
+                ContentHeader = "Впишите название листа",
+                ContentMessage = "Можно выбрать несколько листов, разделяя их имена символом \";\"\nПример: \"ВБ;ВБ точечники;Бюджет\"",
                 InputParams = new InputParams {
                     Label = "Имя листа"
                 },
@@ -105,7 +147,7 @@ public class MainViewModel : ViewModelBase
         );
     }
 
-    private IMsBox<string> showError() {
+    private IMsBox<string> ShowError() {
         return MessageBoxManager.GetMessageBoxCustom(
             new MessageBoxCustomParams() {
                 Icon = MsBox.Avalonia.Enums.Icon.Error,

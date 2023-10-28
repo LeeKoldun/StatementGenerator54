@@ -98,21 +98,9 @@
 						<RadioButton GroupName="type" Content="Ведомость по экзаменационной работе" FontWeight="Medium"/>
 					</StackPanel>
 					<StackPanel Spacing="10" Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Stretch">
-						<ComboBox HorizontalAlignment="Stretch" SelectedIndex="0" MinWidth="100">
-							<ComboBoxItem>
-								<TextBlock>Группа</TextBlock>
-							</ComboBoxItem>
-						</ComboBox>
-						<ComboBox HorizontalAlignment="Stretch" SelectedIndex="0" MinWidth="100">
-							<ComboBoxItem>
-								<TextBlock>Предмет</TextBlock>
-							</ComboBoxItem>
-						</ComboBox>
-						<ComboBox HorizontalAlignment="Stretch" SelectedIndex="0" MinWidth="100">
-							<ComboBoxItem>
-								<TextBlock>Преподаватель</TextBlock>
-							</ComboBoxItem>
-						</ComboBox>
+						<ComboBox HorizontalAlignment="Stretch" SelectedIndex="0" MinWidth="100" ItemsSource="{Binding GroupsList}"/>
+						<ComboBox HorizontalAlignment="Stretch" SelectedIndex="0" MinWidth="100" ItemsSource="{Binding TeachersList}"/>
+						<ComboBox HorizontalAlignment="Stretch" SelectedIndex="0" MinWidth="100" ItemsSource="{Binding SubjectsList}"/>
 					</StackPanel>
 					<Button Background="#1B44B4" FontSize="20" Foreground="White" CornerRadius="20" MinHeight="50"  FontWeight="Bold" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Bottom" HorizontalAlignment="Stretch">
 						<Button.Styles>

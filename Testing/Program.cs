@@ -12,11 +12,11 @@ namespace Testing
     {
         static void Main(string[] args)
         {
-            CmdRunner.Execute(CmdRunner.STUDENT_PARSER,
+            CmdRunner.Execute(CmdRunner.ParserType.StudentParser,
             "Список студентов.xlsx",
             "23-24");
 
-            CmdRunner.Execute(CmdRunner.TEACHER_PARSER,
+            CmdRunner.Execute(CmdRunner.ParserType.TeacherParser,
             "Тарификация на 2022-2023 от  01.02.2023.xlsx",
             "ВБ;ВБ точечники;Бюджет");
 
