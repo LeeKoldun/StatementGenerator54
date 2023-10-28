@@ -88,8 +88,8 @@ public class MainViewModel : ViewModelBase
         return MessageBoxManager.GetMessageBoxCustom(
             new MessageBoxCustomParams() {
                 Icon = MsBox.Avalonia.Enums.Icon.Info,
-                ContentHeader = "Еще кое-что...",
-                ContentTitle = "Впишите название листа",
+                ContentHeader = "Впишите название листа",
+                ContentTitle = "Еще кое-что...",
                 InputParams = new InputParams {
                     Label = "Имя листа"
                 },
