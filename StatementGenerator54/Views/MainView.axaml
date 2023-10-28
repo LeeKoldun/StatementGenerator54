@@ -83,10 +83,10 @@
 				</Border.Styles>
 				<StackPanel Spacing="15" Orientation="Vertical" HorizontalAlignment="Center">
 					<Image Margin="10" Width="100" Height="100" Source="/Assets/KS.png" IsVisible="{Binding IsLeft}"/>
-					<Button Command="{Binding Test}" Background="Orange">Выбрать файл студентов</Button>
-					<Button Command="{Binding Test}" Background="Orange">Выбрать файл преподавателей</Button>
-					<Button Command="{Binding Test}" Background="Orange">Выбрать файл учебных планов</Button>
-					<Button Command="{Binding Test}" Background="Orange">Выбрать файл тарификации</Button>
+					<Button Command="{Binding Test}" CommandParameter="student" Background="Orange">Выбрать файл студентов</Button>
+					<!--<Button Command="{Binding Test}" CommandParameter="" Background="Orange">Выбрать файл преподавателей</Button>-->
+					<!--<Button Command="{Binding Test}" CommandParameter="" Background="Orange">Выбрать файл учебных планов</Button>-->
+					<Button Command="{Binding Test}" CommandParameter="tariff" Background="Orange">Выбрать файл тарификации</Button>
 				</StackPanel>
 			</Border>
 			<Panel  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="25" IsVisible="{Binding IsLeft}">

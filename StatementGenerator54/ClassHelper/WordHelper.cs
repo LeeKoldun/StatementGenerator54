@@ -15,7 +15,7 @@ namespace StatementGenerator54.ClassHelper
         private FileInfo _fileInfo;
         public WordHelper(string fileName)
         {
-            Application app = new word.Application();
+            //Application app = new word.Application();
             if (File.Exists(fileName))
             {
                 _fileInfo = new FileInfo(fileName);
