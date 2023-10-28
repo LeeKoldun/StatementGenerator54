@@ -121,6 +121,7 @@ public class MainViewModel : ViewModelBase
         CmdRunner.Execute(parserType, filePath, mbox.InputValue);
 
         if(!File.Exists(jsonPath)) return false;
+        File.Delete(jsonPath);
 
         if(parserType == CmdRunner.ParserType.StudentParser) {
             Students = new Context().Students(jsonPath);
