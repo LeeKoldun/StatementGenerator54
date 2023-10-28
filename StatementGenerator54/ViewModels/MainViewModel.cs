@@ -22,17 +22,17 @@ public class MainViewModel : ViewModelBase
     public bool IsLeft { get; set; } = false;
     public bool IsCenter { get; set; } = true;
 
-    public string StudentsPath { get; set; }
-    public bool SrudentsLoaded { get; set; }
-    public string TariffPath { get; set; }
-    public bool TariffLoaded { get; set; }
+    public string StudentsPath { get; set; } = "";
+    public bool StudentsLoaded { get; set; } = false;
+    public string TariffPath { get; set; } = "";
+    public bool TariffLoaded { get; set; } = false;
 
-    public List<string> GroupsList { get; set; }
-    public List<string> TeachersList { get; set; }
-    public List<string> SubjectsList { get; set; }
+    public List<string> GroupsList { get; set; } = new List<string>{ };
+    public List<string> TeachersList { get; set; } = new List<string> { };
+    public List<string> SubjectsList { get; set; } = new List<string> { };
 
-    public List<Student> Students { get; set; }
-    public List<Teacher> Teachers { get; set; }
+    public List<Student> Students { get; set; } = new List<Student> { };
+    public List<Teacher> Teachers { get; set; } = new List<Teacher> { };
 
     public ReactiveCommand<string, Unit> Test { get; set; }
     public MainViewModel() {
@@ -55,15 +55,20 @@ public class MainViewModel : ViewModelBase
 
             if(pickResult.Count < 1) return;
 
+            bool? success;
             switch(filePath) {
                 case "student":
                     StudentsPath = pickResult.First().Path.AbsolutePath;
-                    await LoadData(CmdRunner.ParserType.StudentParser, "./student.json");
+                    success = await LoadData(CmdRunner.ParserType.StudentParser, "./student.json");
+
+                    if(!CheckSuccess(success)) return;
                     SetGroups();
                 break;
                 case "tariff":
                     TariffPath = pickResult.First().Path.AbsolutePath;
-                    await LoadData(CmdRunner.ParserType.TeacherParser, "./teacher.json");
+                    success = await LoadData(CmdRunner.ParserType.TeacherParser, "./teacher.json");
+
+                    if(!CheckSuccess(success)) return;
                     SetTeachers();
                     SetSubjects();
                 break;
@@ -103,19 +108,19 @@ public class MainViewModel : ViewModelBase
         this.RaisePropertyChanged(nameof(SubjectsList));
     }
 
-    private async Task LoadData(CmdRunner.ParserType parserType, string jsonPath) {
+    private async Task<bool?> LoadData(CmdRunner.ParserType parserType, string jsonPath) {
         var mbox = GetPromtBox();
         var desk = App.Current!.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime;
-        var result = await mbox.ShowWindowDialogAsync(desk.MainWindow);
+        var result = await mbox.ShowWindowDialogAsync(desk!.MainWindow);
 
-        if(result != "Подтвердить" || string.IsNullOrEmpty(mbox.InputValue)) return;
+        if(result != "Подтвердить" || string.IsNullOrEmpty(mbox.InputValue)) return null;
 
         string filePath;
         if(parserType == CmdRunner.ParserType.StudentParser) filePath = StudentsPath;
         else filePath = TariffPath;
         CmdRunner.Execute(parserType, filePath, mbox.InputValue);
 
-        if(!File.Exists(jsonPath)) return;
+        if(!File.Exists(jsonPath)) return false;
 
         if(parserType == CmdRunner.ParserType.StudentParser) {
             Students = new Context().Students(jsonPath);
@@ -123,6 +128,8 @@ public class MainViewModel : ViewModelBase
         else {
             Teachers = new Context().Teachers(jsonPath);
         }
+
+        return true;
     }
 
     private IMsBox<string> GetPromtBox() {
@@ -145,6 +152,16 @@ public class MainViewModel : ViewModelBase
                 }
             }
         );
+    }
+
+    private bool CheckSuccess(bool? success) {
+        if(success == null) return false;
+        if(success == false) {
+            ShowError();
+            return false;
+        }
+
+        return true;
     }
 
     private IMsBox<string> ShowError() {
