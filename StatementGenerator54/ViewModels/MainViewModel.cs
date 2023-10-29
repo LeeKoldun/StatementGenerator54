@@ -22,6 +22,10 @@ public class MainViewModel : ViewModelBase
     public bool IsLeft { get; set; } = false;
     public bool IsCenter { get; set; } = true;
 
+    public string SelectedGroup { get; set; } = "Группа";
+    public string SelectedTeacher { get; set; } = "Преподаватель";
+    public string SelectedSubject { get; set; } = "Предмет";
+
     public string StudentsPath { get; set; } = "";
     public bool StudentsLoaded { get; set; } = false;
     public string TariffPath { get; set; } = "";
@@ -59,14 +63,14 @@ public class MainViewModel : ViewModelBase
             switch(filePath) {
                 case "student":
                     StudentsPath = pickResult.First().Path.AbsolutePath;
-                    success = await LoadData(CmdRunner.ParserType.StudentParser, "./student.json");
+                    success = await LoadData(CmdRunner.ParserType.StudentParser, "./students.json");
 
                     if(!await CheckSuccess(success)) return;
                     SetGroups();
                 break;
                 case "tariff":
                     TariffPath = pickResult.First().Path.AbsolutePath;
-                    success = await LoadData(CmdRunner.ParserType.TeacherParser, "./teacher.json");
+                    success = await LoadData(CmdRunner.ParserType.TeacherParser, "./teachers.json");
 
                     if(!await CheckSuccess(success)) return;
                     SetTeachers();
@@ -122,7 +126,7 @@ public class MainViewModel : ViewModelBase
         if(File.Exists(jsonPath)) File.Delete(jsonPath);
 
         CmdRunner.Execute(parserType, filePath, mbox.InputValue);
-        await Task.Delay(TimeSpan.FromSeconds(5));
+        await Task.Delay(TimeSpan.FromSeconds(1));
         if(!File.Exists(jsonPath)) return false;
 
         if(parserType == CmdRunner.ParserType.StudentParser) {
@@ -173,7 +177,13 @@ public class MainViewModel : ViewModelBase
             new MessageBoxCustomParams() {
                 Icon = MsBox.Avalonia.Enums.Icon.Error,
                 ContentHeader = "Ошибка!",
-                ContentTitle = "Не удалось загрузить данные. Убедитесь, что лист введён верно",
+                ContentMessage = "Не удалось загрузить данные. Убедитесь, что имя листа введено верно",
+                ButtonDefinitions = new [] {
+                    new ButtonDefinition {
+                        Name = "Ок",
+                        IsCancel = true
+                    }
+                }
             }
         );
     }

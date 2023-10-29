@@ -21,8 +21,8 @@ namespace Testing
             "ВБ;ВБ точечники;Бюджет");
 
             var con = new Context();
-            var students = con.Students("student.json");
-            var teachers = con.Teachers("Teacher.json");
+            var students = con.Students("students.json");
+            var teachers = con.Teachers("teachers.json");
 
             Console.Write("Выберите ведомость(1-экзаменационная;2-зачетная)");
             int index = Convert.ToInt32(Console.ReadLine());
