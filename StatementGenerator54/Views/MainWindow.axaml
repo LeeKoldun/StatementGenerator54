@@ -7,7 +7,7 @@
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="StatementGenerator54.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
-		MinHeight="600" MinWidth="800"
+		MinHeight="300" MinWidth="700"
         Title="StatementGenerator54">
         <views:MainView />
 	<Window.Styles>

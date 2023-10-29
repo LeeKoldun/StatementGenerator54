@@ -17,13 +17,14 @@ namespace StatementGenerator54.ClassHelper
 
         public static void Execute(ParserType parserType, string filePath, string listSheet)
         {
-            string cmdPath = "./Parser/";
+            string cmdPath = "";
             switch(parserType) {
                 case ParserType.StudentParser:
-                    cmdPath += "StudentParser/main.exe";
+                    cmdPath = System.IO.Path.GetFullPath("./Parser/StudentParser/main.exe");
                 break;
                 case ParserType.TeacherParser:
-                    cmdPath += "TeacherAndSubjectsParser/main.exe";
+                    cmdPath = System.IO.Path.GetFullPath("./Parser/TeacherAndSubjectsParser/main.exe");
+
                 break;
 
                 default:

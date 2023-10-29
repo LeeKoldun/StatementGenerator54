@@ -23,4 +23,19 @@
     <ProjectReference Include="..\StatementGenerator54\StatementGenerator54.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Зачётная ведомость.doc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Список студентов.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Тарификация на 2022-2023 от  01.02.2023.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Экзаменационная ведомость.doc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

@@ -16,6 +16,7 @@ namespace StatementGenerator54.ClassHelper
         public WordHelper(string fileName)
         {
             //Application app = new word.Application();
+            fileName = System.IO.Path.GetFullPath(fileName);
             if (File.Exists(fileName))
             {
                 _fileInfo = new FileInfo(fileName);

@@ -61,14 +61,14 @@ public class MainViewModel : ViewModelBase
                     StudentsPath = pickResult.First().Path.AbsolutePath;
                     success = await LoadData(CmdRunner.ParserType.StudentParser, "./student.json");
 
-                    if(!CheckSuccess(success)) return;
+                    if(!await CheckSuccess(success)) return;
                     SetGroups();
                 break;
                 case "tariff":
                     TariffPath = pickResult.First().Path.AbsolutePath;
                     success = await LoadData(CmdRunner.ParserType.TeacherParser, "./teacher.json");
 
-                    if(!CheckSuccess(success)) return;
+                    if(!await CheckSuccess(success)) return;
                     SetTeachers();
                     SetSubjects();
                 break;
@@ -122,7 +122,7 @@ public class MainViewModel : ViewModelBase
         if(File.Exists(jsonPath)) File.Delete(jsonPath);
 
         CmdRunner.Execute(parserType, filePath, mbox.InputValue);
-
+        await Task.Delay(TimeSpan.FromSeconds(5));
         if(!File.Exists(jsonPath)) return false;
 
         if(parserType == CmdRunner.ParserType.StudentParser) {
@@ -157,10 +157,11 @@ public class MainViewModel : ViewModelBase
         );
     }
 
-    private bool CheckSuccess(bool? success) {
+    private async Task<bool> CheckSuccess(bool? success) {
         if(success == null) return false;
         if(success == false) {
-            ShowError();
+            var desk = App.Current!.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime;
+            await ShowError().ShowAsPopupAsync(desk.MainWindow);
             return false;
         }
 
