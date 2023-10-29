@@ -61,7 +61,7 @@ namespace Testing {
                 { "<subject>", subject },
             };
 
-            helper.Process(items, students);
+            helper.Process(items, students, "test doc");
         }
     }
 }

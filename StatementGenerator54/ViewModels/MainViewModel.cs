@@ -22,11 +22,11 @@ public class MainViewModel : ViewModelBase
     public bool IsLeft { get; set; } = false;
     public bool IsCenter { get; set; } = true;
 
-    public string SelectedGroup { get; set; } = "Группа";
-    public string SelectedTeacher { get; set; } = "Преподаватель";
-    public string SelectedSubject { get; set; } = "Предмет";
+    public string SelectedGroup { get; set; } = "";
+    public string SelectedTeacher { get; set; } = "";
+    public string SelectedSubject { get; set; } = "";
 
-    public WordHelper.StatementType SelectedStatementType { get; set; }
+    public WordHelper.StatementType? SelectedStatementType { get; set; } = null;
     public bool[] StatementVakues { get; set; } = { false, false, false, false };
 
     public string StudentsPath { get; set; } = "";
@@ -50,8 +50,75 @@ public class MainViewModel : ViewModelBase
         GenerateStatement = ReactiveCommand.Create(Generate);
     }
 
-    public void Generate() {
+    public async void Generate() {
+        var desk = App.Current!.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime;
 
+        if(
+            string.IsNullOrWhiteSpace(SelectedSubject) || 
+            string.IsNullOrWhiteSpace(SelectedGroup) || 
+            string.IsNullOrWhiteSpace(SelectedTeacher)
+        ) {
+            await ShowError("Выберите все данные!").ShowAsPopupAsync(desk!.MainWindow);
+            return;
+        }
+
+        if(SelectedStatementType is null) {
+            await ShowError("Выберите тип ведомости!").ShowAsPopupAsync(desk!.MainWindow);
+            return;
+        }
+
+        var storage = TopLevel.GetTopLevel(desk!.MainWindow)!.StorageProvider;
+        //var path = await storage.OpenFolderPickerAsync(new FolderPickerOpenOptions {
+        //    AllowMultiple = false,
+        //    Title = "Выберите путь сохранения документа",
+        //    SuggestedStartLocation = await storage.TryGetFolderFromPathAsync(
+        //        Environment.GetFolderPath(Environment.SpecialFolder.Desktop)
+        //    )
+        //});
+
+        string statementName;
+        switch(SelectedStatementType) {
+            case WordHelper.StatementType.Exam:
+                statementName = "Экзаменационная ведомость";
+            break;
+            case WordHelper.StatementType.ComplexExam:
+                statementName = "Экзаменационная ведомость (комплексный экзамен).doc";
+            break;
+            case WordHelper.StatementType.Coursework:
+                statementName = "Курсовая ведомость";
+            break;
+            case WordHelper.StatementType.Test:
+                statementName = "Зачётная ведомость";
+            break;
+
+            default:
+            throw new Exception("Invalid statement type!");
+        }
+        var path = await storage.SaveFilePickerAsync(new FilePickerSaveOptions {
+            DefaultExtension = "doc",
+            ShowOverwritePrompt = true,
+            Title = "Выберите путь сохранения документа",
+            SuggestedFileName = $"{statementName} {SelectedGroup} {SelectedTeacher} {SelectedSubject} {DateTime.Now.ToString("yyyy")}"
+        });
+        if(path is null) return;
+
+        string savePath = path.Path.AbsolutePath;
+
+        var filteredStudents = Students.Where(e => e.Group == SelectedGroup).ToList();
+        var stud = filteredStudents.First();
+        var teacher = Teachers.First(e => (e.FullName == SelectedTeacher) && (e.FullSubjectName == SelectedSubject));
+
+
+        WordHelper.TextChanger(
+            savePath, 
+            teacher.FullName, 
+            teacher.FullSubjectName, 
+            stud.Group, 
+            stud.Specialization, 
+            stud.Course, 
+            filteredStudents,
+            (WordHelper.StatementType)SelectedStatementType
+        );
     }
 
     public void ChooseStatement(string type) {
@@ -197,19 +264,19 @@ public class MainViewModel : ViewModelBase
         if(success == null) return false;
         if(success == false) {
             var desk = App.Current!.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime;
-            await ShowError().ShowAsPopupAsync(desk!.MainWindow);
+            await ShowError("Не удалось загрузить данные. Убедитесь, что имя листа введено верно").ShowAsPopupAsync(desk!.MainWindow);
             return false;
         }
 
         return true;
     }
 
-    private IMsBox<string> ShowError() {
+    private IMsBox<string> ShowError(string message) {
         return MessageBoxManager.GetMessageBoxCustom(
             new MessageBoxCustomParams() {
                 Icon = MsBox.Avalonia.Enums.Icon.Error,
                 ContentHeader = "Ошибка!",
-                ContentMessage = "Не удалось загрузить данные. Убедитесь, что имя листа введено верно",
+                ContentMessage = message,
                 ButtonDefinitions = new [] {
                     new ButtonDefinition {
                         Name = "Ок",

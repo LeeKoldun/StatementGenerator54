@@ -1,7 +1,9 @@
 ﻿using StatementGenerator54.Model;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
+using System.Reflection;
 using word = Microsoft.Office.Interop.Word;
 
 namespace StatementGenerator54.ClassHelper {
@@ -25,14 +27,64 @@ namespace StatementGenerator54.ClassHelper {
             }
         }
 
-        public void Process(Dictionary<string, string> items, List<Student> students) {
+        public static void TextChanger(
+            string savePath,
+            string teacher, 
+            string subject, 
+            string group, 
+            string special, 
+            string course, 
+            List<Student> students, 
+            StatementType statementType,
+            string teacher2 = "",
+            string subject2 = ""
+        ) {
+            string file = "./Statements/";
+            switch(statementType) {
+                case StatementType.Exam:
+                    file += "Экзаменационная ведомость.doc";
+                break;
+                case StatementType.ComplexExam:
+                    file += "Экзаменационная ведомость (комплексный экзамен).doc";
+                break;
+                case StatementType.Coursework:
+                    file += "Курсовая ведомость.docx";
+                break;
+                case StatementType.Test:
+                    file += "Зачётная ведомость.doc";
+                break;
+
+                default:
+                    throw new Exception("Invalid statement type!");
+            }
+            var helper = new WordHelper(file);
+
+            var items = new Dictionary<string, string>()
+            {
+                { "<teacher>", teacher },
+                { "<group>", group },
+                { "<special>", special },
+                { "<courseNumber>", course },
+                { "<subject>", subject },
+            };
+
+            helper.Process(items, students, savePath);
+        }
+
+        public void Process(Dictionary<string, string> items, List<Student> students, string savePath) {
             int studCount = students.Count;
             int lastIndex = 1;
+            int offset = 0;
             Dictionary<string, string> studs = new Dictionary<string, string> { };
 
             for(int i = 1; i <= studCount; i++) {
-                items.Add($"<student{i}>", students[i - 1].FullName);
-                lastIndex = i;
+                if(!students[i - 1].AddToList) {
+                    offset++;
+                    continue;
+                }
+
+                items.Add($"<student{i - offset}>", students[i - 1].FullName);
+                lastIndex = i - offset;
             }
 
             for(int i = lastIndex + 1; i <= 26; i++) {
@@ -71,10 +123,8 @@ namespace StatementGenerator54.ClassHelper {
                         ReplaceWith: missing, Replace: replace);
                 }
 
-
-
-                Object newFileName = Path.Combine(_fileInfo.DirectoryName!, DateTime.Now.ToString("yyyMMdd HHmmss") + _fileInfo.Name);
-                app.ActiveDocument.SaveAs2(newFileName);
+                savePath = Uri.UnescapeDataString(savePath);
+                app.ActiveDocument.SaveAs2(savePath);
                 app.ActiveDocument.Close();
 
             }
