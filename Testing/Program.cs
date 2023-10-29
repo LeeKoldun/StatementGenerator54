@@ -1,17 +1,9 @@
 ﻿using StatementGenerator54.ClassHelper;
 using StatementGenerator54.Model;
-using Microsoft.Office.Interop.Word;
-using word = Microsoft.Office.Interop.Word;
-using StatementGenerator54.ClassHelper;
-using System;
-using System.IO;
 
-namespace Testing
-{
-    internal class Program
-    {
-        static void Main(string[] args)
-        {
+namespace Testing {
+    internal class Program {
+        static void Main(string[] args) {
             CmdRunner.Execute(CmdRunner.ParserType.StudentParser,
             "Список студентов.xlsx",
             "23-24");
@@ -28,13 +20,13 @@ namespace Testing
             int index = Convert.ToInt32(Console.ReadLine());
 
             Console.Write("Введите группу: ");
-            string groupIn = Console.ReadLine();
+            string groupIn = Console.ReadLine()!;
 
             Console.Write("Введите имя преподователя: ");
-            string teacherIn = Console.ReadLine();
+            string teacherIn = Console.ReadLine()!;
 
             Console.Write("Введите дисциплину: ");
-            string disciplineIn = Console.ReadLine();
+            string disciplineIn = Console.ReadLine()!;
 
             var filteredStudents = students.Where(e => e.Group == groupIn);
 
@@ -44,21 +36,18 @@ namespace Testing
 
             string teacher = teachers.First(e => e.FullName.Contains(teacherIn)).FullName;
 
-            string subj = teachers.First(e => e.FullSubjectName.Contains(disciplineIn)).FullSubjectName;
+            string subj = teachers.First(e => e.FullSubjectName.Contains(disciplineIn!)).FullSubjectName;
 
             TextChanger(teacher, subj, group, specialization, course, filteredStudents.ToList(), index);
 
         }
         public static void TextChanger(string teacher, string subject, string group, string special, string course, List<Student> students
-            ,int index)
-        {
+            , int index) {
             string file;
-            if (index == 1)
-            {
+            if(index == 1) {
                 file = "Экзаменационная ведомость.doc";
             }
-            else
-            {
+            else {
                 file = "Зачётная ведомость.doc";
             }
             var helper = new WordHelper(file);

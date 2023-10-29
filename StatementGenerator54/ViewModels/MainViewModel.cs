@@ -26,6 +26,9 @@ public class MainViewModel : ViewModelBase
     public string SelectedTeacher { get; set; } = "Преподаватель";
     public string SelectedSubject { get; set; } = "Предмет";
 
+    public WordHelper.StatementType SelectedStatementType { get; set; }
+    public bool[] StatementVakues { get; set; } = { false, false, false, false };
+
     public string StudentsPath { get; set; } = "";
     public bool StudentsLoaded { get; set; } = false;
     public string TariffPath { get; set; } = "";
@@ -39,9 +42,38 @@ public class MainViewModel : ViewModelBase
     public List<Teacher> Teachers { get; set; } = new List<Teacher> { };
 
     public ReactiveCommand<string, Unit> Test { get; set; }
+    public ReactiveCommand<string, Unit> StatementSelect{ get; set; }
+    public ReactiveCommand<Unit, Unit> GenerateStatement{ get; set; }
     public MainViewModel() {
         Test = ReactiveCommand.CreateFromTask<string>(OpenFileDialog);
+        StatementSelect = ReactiveCommand.Create<string>(ChooseStatement);
+        GenerateStatement = ReactiveCommand.Create(Generate);
     }
+
+    public void Generate() {
+
+    }
+
+    public void ChooseStatement(string type) {
+        switch(type) {
+            case "exam":
+                SelectedStatementType = WordHelper.StatementType.Exam;
+            break;
+            case "complexExam":
+                SelectedStatementType = WordHelper.StatementType.ComplexExam;
+            break;
+            case "course":
+                SelectedStatementType = WordHelper.StatementType.Coursework;
+            break;
+            case "test":
+                SelectedStatementType = WordHelper.StatementType.Test;
+            break;
+
+            default:
+                throw new Exception("Invalid statement type!");
+        }
+    }
+
     public async Task OpenFileDialog(string filePath)
     {
         if(App.Current!.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
@@ -165,7 +197,7 @@ public class MainViewModel : ViewModelBase
         if(success == null) return false;
         if(success == false) {
             var desk = App.Current!.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime;
-            await ShowError().ShowAsPopupAsync(desk.MainWindow);
+            await ShowError().ShowAsPopupAsync(desk!.MainWindow);
             return false;
         }
 
