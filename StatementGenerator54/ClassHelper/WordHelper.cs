@@ -62,10 +62,12 @@ namespace StatementGenerator54.ClassHelper {
             var items = new Dictionary<string, string>()
             {
                 { "<teacher>", teacher },
+                { "<teacher2>", teacher2 },
                 { "<group>", group },
                 { "<special>", special },
                 { "<courseNumber>", course },
                 { "<subject>", subject },
+                { "<subject2>", subject2 },
             };
 
             helper.Process(items, students, savePath);

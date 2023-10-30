@@ -12,9 +12,8 @@ namespace Testing {
             "Тарификация на 2022-2023 от  01.02.2023.xlsx",
             "ВБ;ВБ точечники;Бюджет");
 
-            var con = new Context();
-            var students = con.Students("students.json");
-            var teachers = con.Teachers("teachers.json");
+            var students = Context.Students("students.json");
+            var teachers = Context.Teachers("teachers.json");
 
             Console.Write("Выберите ведомость(1-экзаменационная;2-зачетная)");
             int index = Convert.ToInt32(Console.ReadLine());

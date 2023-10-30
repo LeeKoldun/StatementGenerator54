@@ -8,9 +8,9 @@ using System.IO;
 
 namespace StatementGenerator54.Model
 {
-    public class Context
+    public static class Context
     {
-        public List<Teacher> Teachers(string jsonPath)
+        public static List<Teacher> Teachers(string jsonPath)
         {
             string finalJson = "";
             using (StreamReader streamReader = new StreamReader(jsonPath))
@@ -19,7 +19,7 @@ namespace StatementGenerator54.Model
             }
 
             List<Teacher> teachers = new List<Teacher>();
-            teachers = JsonConvert.DeserializeObject<List<Teacher>>(finalJson);
+            teachers = JsonConvert.DeserializeObject<List<Teacher>>(finalJson)!;
 
 
             return teachers;
@@ -27,7 +27,7 @@ namespace StatementGenerator54.Model
 
         }
 
-        public List<Student> Students(string jsonPath)
+        public static List<Student> Students(string jsonPath)
         {
             string finalJson = "";
             using (StreamReader streamReader = new StreamReader(jsonPath))
@@ -36,13 +36,13 @@ namespace StatementGenerator54.Model
             }
 
             List<Student> teachers = new List<Student>();
-            teachers = JsonConvert.DeserializeObject<List<Student>>(finalJson);
+            teachers = JsonConvert.DeserializeObject<List<Student>>(finalJson)!;
 
 
             return teachers;
         }
 
-        public List<Student> GroupList(string jsonPath)
+        public static List<Student> GroupList(string jsonPath)
         {
             string finalJson = "";
             using (StreamReader streamReader = new StreamReader(jsonPath))
@@ -50,7 +50,7 @@ namespace StatementGenerator54.Model
                 finalJson = streamReader.ReadToEnd();
             }
 
-            var groups = JsonConvert.DeserializeObject<List<Student>>(finalJson).GroupBy(x => x.Group);
+            var groups = JsonConvert.DeserializeObject<List<Student>>(finalJson)!.GroupBy(x => x.Group);
 
             List<Student> groupsList = new List<Student>();
 
@@ -60,6 +60,17 @@ namespace StatementGenerator54.Model
             }
 
             return groupsList;
+        }
+
+        public static SavePaths LoadSavePaths(string jsonPath) {
+            if(!File.Exists(jsonPath)) return new SavePaths();
+
+            string finalJson = "";
+            using(var sr = new StreamReader(jsonPath)) {
+                finalJson = sr.ReadToEnd();
+            }
+
+            return JsonConvert.DeserializeObject<SavePaths>(finalJson)!;
         }
     }
 }

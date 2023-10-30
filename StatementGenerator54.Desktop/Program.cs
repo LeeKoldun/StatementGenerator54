@@ -15,7 +15,6 @@ class Program
     {
         BuildAvaloniaApp()
         .StartWithClassicDesktopLifetime(args);
-
         
     } 
 
