@@ -89,7 +89,7 @@ namespace StatementGenerator54.ClassHelper {
                 lastIndex = i - offset;
             }
 
-            for(int i = lastIndex + 1; i <= 26; i++) {
+            for(int i = lastIndex + 1; i <= 30; i++) {
                 items.Add($"<student{i}>", "");
             }
 
