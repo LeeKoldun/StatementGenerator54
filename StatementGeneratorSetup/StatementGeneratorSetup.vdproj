@@ -193,7 +193,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:StatementGenerator"
         "ProductCode" = "8:{3F2B7CB0-046E-4928-8BDB-A0A2A17807D0}"
-        "PackageCode" = "8:{195DB8B0-EFFF-4329-A5CF-13BE6033864A}"
+        "PackageCode" = "8:{F461F288-06F1-4932-919C-B00A90BE1ADB}"
         "UpgradeCode" = "8:{AA60C816-6914-4247-B910-C77805A8A4A5}"
         "AspNetVersion" = "8:"
         "RestartWWWService" = "11:FALSE"
