@@ -6,8 +6,12 @@
     <TargetFramework>net7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
-    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <ApplicationManifest>statementApp.manifest</ApplicationManifest>
+    <ApplicationIcon>KS.ico</ApplicationIcon>
   </PropertyGroup>
+  <ItemGroup>
+    <Content Include="KS.ico" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Avalonia.Desktop" Version="$(AvaloniaVersion)" />
