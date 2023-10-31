@@ -32,7 +32,7 @@ public class MainViewModel : ViewModelBase
             _selectedTeacher = value;
             this.RaisePropertyChanged(nameof(SelectedTeacher));
 
-            if(!string.IsNullOrWhiteSpace(SelectedTeacher)) SortByTeacher();
+            if(!string.IsNullOrWhiteSpace(SelectedTeacher) && UseFilters) SortByTeacher();
         }
     }
     private string _selectedTeacher2 = "";
@@ -42,7 +42,7 @@ public class MainViewModel : ViewModelBase
             _selectedTeacher2 = value;
             this.RaisePropertyChanged(nameof(SelectedTeacher2));
 
-            if(!string.IsNullOrWhiteSpace(SelectedTeacher2)) SortByTeacher(true);
+            if(!string.IsNullOrWhiteSpace(SelectedTeacher2) && UseFilters) SortByTeacher(true);
         }
     }
 
@@ -54,7 +54,7 @@ public class MainViewModel : ViewModelBase
             _selectedSubject = value;
             this.RaisePropertyChanged(nameof(SelectedSubject));
 
-            if(!string.IsNullOrWhiteSpace(SelectedSubject)) SortBySubject();
+            if(!string.IsNullOrWhiteSpace(SelectedSubject) && UseFilters) SortBySubject();
         }
     }
     private string _selectedSubject2 = "";
@@ -64,13 +64,13 @@ public class MainViewModel : ViewModelBase
             _selectedSubject2 = value;
             this.RaisePropertyChanged(nameof(SelectedSubject2));
 
-            if(!string.IsNullOrWhiteSpace(SelectedSubject2)) SortBySubject(true);
+            if(!string.IsNullOrWhiteSpace(SelectedSubject2) && UseFilters) SortBySubject(true);
         }
     }
 
 
     public WordHelper.StatementType? SelectedStatementType { get; set; } = null;
-    public bool[] StatementVakues { get; set; } = { false, false, false, false };
+    public bool[] StatementValues { get; set; } = { false, false, false, false };
 
     public string StudentsPath { get; set; } = "";
     public bool StudentsLoaded { get => Students.Count > 0; }
@@ -78,8 +78,9 @@ public class MainViewModel : ViewModelBase
     public bool TariffLoaded { get => Teachers.Count > 0; }
 
     public bool IsComplexExam { get => SelectedStatementType == WordHelper.StatementType.ComplexExam; }
+    public bool UseFilters { get; set; } = true;
 
-    public List<string> GroupsList { get; set; } = new List<string>{ };
+    public List<string> GroupsList { get; set; } = new List<string> { };
     public List<string> TeachersList { get; set; } = new List<string> { };
     public List<string> TeachersList2 { get; set; } = new List<string> { };
     public List<string> SubjectsList { get; set; } = new List<string> { };
@@ -102,7 +103,6 @@ public class MainViewModel : ViewModelBase
             await Task.Delay(1000);
             LoadAndCheckSavedPaths();
         }).Start();
-
     }
 
     public void LoadAndCheckSavedPaths() {
@@ -167,7 +167,7 @@ public class MainViewModel : ViewModelBase
                 statementName = "Экзаменационная ведомость";
             break;
             case WordHelper.StatementType.ComplexExam:
-                statementName = "Экзаменационная ведомость (комплексный экзамен).doc";
+                statementName = "Экзаменационная ведомость (комплексный экзамен)";
                 teacher2 = SelectedTeacher2;
                 subject2 = SelectedSubject2;
             break;
@@ -176,6 +176,11 @@ public class MainViewModel : ViewModelBase
             break;
             case WordHelper.StatementType.Test:
                 statementName = "Зачётная ведомость";
+            break;
+            case WordHelper.StatementType.ComplexTest:
+                statementName = "Зачётная ведомость (комплексный зачёт)";
+                teacher2 = SelectedTeacher2;
+                subject2 = SelectedSubject2;
             break;
 
             default:

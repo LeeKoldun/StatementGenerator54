@@ -12,7 +12,8 @@ namespace StatementGenerator54.ClassHelper {
             Exam, // Экзамен
             ComplexExam, // Комплексный экзамен
             Coursework, // Курсовая
-            Test // Зачёт
+            Test, // Зачёт
+            ComplexTest // Комплексный зачёт
         }
 
         private FileInfo _fileInfo;
@@ -53,6 +54,10 @@ namespace StatementGenerator54.ClassHelper {
                 case StatementType.Test:
                     file += "Зачётная ведомость.doc";
                 break;
+                case StatementType.ComplexTest:
+                    file += "Зачётная ведомость (комплексный зачёт).doc";
+                break;
+
 
                 default:
                     throw new Exception("Invalid statement type!");
