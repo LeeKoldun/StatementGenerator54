@@ -35,7 +35,7 @@
 					<Setter Property="VerticalAlignment" Value="Top"/>
 
 				</Style>
-				<Style Selector="DockPanel.left > Border > StackPanel > Button">
+				<Style Selector="DockPanel.left > Border > StackPanel > StackPanel  > Button">
 					<Style.Animations>
 						<Animation Duration="0:0:0.4" IterationCount="1">
 							<KeyFrame Cue="0%">
@@ -48,10 +48,10 @@
 					</Style.Animations>
 					<Setter Property="CornerRadius" Value="0,25,25,0"/>
 				</Style>
-				<Style Selector="DockPanel.left > Border > StackPanel > Button /template/ ContentPresenter">
+				<Style Selector="DockPanel.left > Border > StackPanel > StackPanel > Button /template/ ContentPresenter">
 					<Setter Property="Background" Value="#FD8B01"/>
 				</Style>
-				<Style Selector="DockPanel.left > Border > StackPanel > Button:pointerover">
+				<Style Selector="DockPanel.left > Border > StackPanel > StackPanel > Button:pointerover">
 
 					<Setter Property="Opacity" Value="1"/>
 
@@ -63,7 +63,7 @@
 					<Style Selector="Border > StackPanel">
 						<Setter Property="VerticalAlignment" Value="Center"/>
 					</Style>
-					<Style Selector="Border > StackPanel > StackPanel > Button">
+					<Style Selector="Border > StackPanel > StackPanel  > Button">
 						<Setter Property="MinHeight" Value="60"/>
 						<Setter Property="VerticalContentAlignment" Value="Center"/>
 						<Setter Property="HorizontalContentAlignment" Value="Stretch"/>
@@ -73,7 +73,7 @@
 						<Setter Property="Padding" Value="20"/>
 						<Setter Property="HorizontalAlignment" Value="Stretch"/>
 					</Style>
-					<Style Selector="Border > StackPanel > Button:pointerover /template/ ContentPresenter">
+					<Style Selector="Border > StackPanel > StackPanel > Button:pointerover /template/ ContentPresenter">
 						<Setter Property="Background" Value="White"/>
 						<Setter Property="BorderThickness" Value="1"/>
 						<Setter Property="BorderBrush" Value="Orange"/>
@@ -107,12 +107,22 @@
 						<RadioButton GroupName="type" Content="Экзаменационная ведомость" FontWeight="Medium" Command="{Binding StatementSelect}" CommandParameter="exam"/>
 					</StackPanel>
 					<WrapPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Stretch">
-						<StackPanel Margin="10">
-							<Label Content="Группа:" FontWeight="Bold"/>
-							<ComboBox MinWidth="100" MaxWidth="200" HorizontalAlignment="Stretch" SelectedIndex="0" ItemsSource="{Binding GroupsList}" SelectedItem="{Binding SelectedGroup}"/>
-						</StackPanel>
-						<StackPanel Orientation="Horizontal"
-									Margin="10">
+						<WrapPanel.Styles>
+							<Style Selector="WrapPanel > StackPanel">
+								<Setter Property="Spacing" Value="10"/>
+								<Setter Property="Margin" Value="5"/>
+
+							</Style>
+							<Style Selector="WrapPanel > StackPanel > StackPanel > ComboBox > ComboBoxItem > TextBlock">
+								<Setter Property="Width" Value="200"/>
+								<Setter Property="TextWrapping" Value="WrapWithOverflow"/>
+							</Style>
+						</WrapPanel.Styles>
+						<StackPanel Orientation="Horizontal">
+							<StackPanel>
+								<Label Content="Группа:" FontWeight="Bold"/>
+								<ComboBox MinWidth="100" MaxWidth="200" HorizontalAlignment="Stretch" SelectedIndex="0" ItemsSource="{Binding GroupsList}" SelectedItem="{Binding SelectedGroup}"/>
+							</StackPanel>
 							<StackPanel>
 								<Label Content="Преподаватель:" FontWeight="Bold"/>
 								<ComboBox MinWidth="100" MaxWidth="200" HorizontalAlignment="Stretch" SelectedIndex="0" ItemsSource="{Binding TeachersList}" SelectedItem="{Binding SelectedTeacher}"/>
@@ -122,8 +132,7 @@
 								<ComboBox MinWidth="100" MaxWidth="200" HorizontalAlignment="Stretch" SelectedIndex="0" ItemsSource="{Binding SubjectsList}" SelectedItem="{Binding SelectedSubject}"/>
 							</StackPanel>
 						</StackPanel>
-						<StackPanel Orientation="Horizontal"
-									Margin="10">
+						<StackPanel Orientation="Horizontal">
 							<StackPanel IsVisible="{Binding IsComplex}">
 								<Label Content="Преподаватель 2:" FontWeight="Bold"/>
 								<ComboBox MinWidth="100" MaxWidth="200" HorizontalAlignment="Stretch" SelectedIndex="0" ItemsSource="{Binding TeachersList2}" SelectedItem="{Binding SelectedTeacher2}"/>
@@ -134,14 +143,13 @@
 							</StackPanel>
 						</StackPanel>
 
-						<StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-							<Label Content="Использовать фильтр:" FontWeight="Bold"/>
+						<StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
+							<Label VerticalAlignment="Center" Content="Использовать фильтр:" FontWeight="Bold"/>
 							<CheckBox IsChecked="{Binding UseFilters}"/>
 						</StackPanel>
 						
 						<Button Background="#1B44B4"
 								Foreground="White"
-								Margin="10"
 								CornerRadius="20"
 								MinHeight="50"
 								FontWeight="Bold"

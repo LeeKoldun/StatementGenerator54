@@ -20,8 +20,8 @@ namespace StatementGenerator54.ViewModels;
 
 public class MainViewModel : ViewModelBase
 {
-    public bool IsLeft { get; set; } = false;
-    public bool IsCenter { get; set; } = true;
+    public bool IsLeft { get; set; } = true;
+    public bool IsCenter { get; set; } = false;
 
     public string SelectedGroup { get; set; } = "";
 
