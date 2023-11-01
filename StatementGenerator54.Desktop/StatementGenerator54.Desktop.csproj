@@ -354,6 +354,9 @@
     <None Update="Parser\TeacherAndSubjectsParser\_internal\_ssl.pyd">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Statements\Зачётная ведомость %28комплексный зачёт%29.doc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Statements\Зачётная ведомость.doc">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

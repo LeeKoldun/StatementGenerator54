@@ -77,7 +77,8 @@ public class MainViewModel : ViewModelBase
     public string TariffPath { get; set; } = "";
     public bool TariffLoaded { get => Teachers.Count > 0; }
 
-    public bool IsComplexExam { get => SelectedStatementType == WordHelper.StatementType.ComplexExam; }
+    public bool IsComplex { get => SelectedStatementType == WordHelper.StatementType.ComplexExam || 
+                                   SelectedStatementType == WordHelper.StatementType.ComplexTest; }
     public bool UseFilters { get; set; } = true;
 
     public List<string> GroupsList { get; set; } = new List<string> { };
@@ -247,7 +248,7 @@ public class MainViewModel : ViewModelBase
             this.RaisePropertyChanged(nameof(SelectedTeacher2));
             this.RaisePropertyChanged(nameof(SelectedSubject2));
         }
-        this.RaisePropertyChanged(nameof(IsComplexExam));
+        this.RaisePropertyChanged(nameof(IsComplex));
     }
 
     public async Task OpenFileDialog(string filePath)
@@ -267,7 +268,6 @@ public class MainViewModel : ViewModelBase
 
             if(pickResult.Count < 1) return;
 
-            bool? success;
             switch(filePath) {
                 case "student":
                     LoadStudentsJson(pickResult.First().Path.AbsolutePath);

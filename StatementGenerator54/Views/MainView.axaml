@@ -101,6 +101,7 @@
 					</Grid.RowDefinitions>
 					<StackPanel Grid.Row="1" Spacing="10" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Left">
 						<RadioButton GroupName="type" Content="Зачётная ведомость" FontWeight="Medium" Command="{Binding StatementSelect}" CommandParameter="test"/>
+						<RadioButton GroupName="type" Content="Зачётная ведомость (комплексный зачёт)" FontWeight="Medium" Command="{Binding StatementSelect}" CommandParameter="complexTest"/>
 						<RadioButton GroupName="type" Content="Курсовая ведомость" FontWeight="Medium" Command="{Binding StatementSelect}" CommandParameter="course"/>
 						<RadioButton GroupName="type" Content="Экзаменационная ведомость (комплексный экзамен)" FontWeight="Medium" Command="{Binding StatementSelect}" CommandParameter="complexExam"/>
 						<RadioButton GroupName="type" Content="Экзаменационная ведомость" FontWeight="Medium" Command="{Binding StatementSelect}" CommandParameter="exam"/>
@@ -123,14 +124,19 @@
 						</StackPanel>
 						<StackPanel Orientation="Horizontal"
 									Margin="10">
-							<StackPanel IsVisible="{Binding IsComplexExam}">
+							<StackPanel IsVisible="{Binding IsComplex}">
 								<Label Content="Преподаватель 2:" FontWeight="Bold"/>
 								<ComboBox MinWidth="100" MaxWidth="200" HorizontalAlignment="Stretch" SelectedIndex="0" ItemsSource="{Binding TeachersList2}" SelectedItem="{Binding SelectedTeacher2}"/>
 							</StackPanel>
-							<StackPanel IsVisible="{Binding IsComplexExam}">
+							<StackPanel IsVisible="{Binding IsComplex}">
 								<Label Content="Предмет 2:" FontWeight="Bold"/>
 								<ComboBox Width="100" HorizontalAlignment="Stretch" SelectedIndex="0" MinWidth="100" ItemsSource="{Binding SubjectsList2}" SelectedItem="{Binding SelectedSubject2}"/>
 							</StackPanel>
+						</StackPanel>
+
+						<StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+							<Label Content="Использовать фильтр:" FontWeight="Bold"/>
+							<CheckBox IsChecked="{Binding UseFilters}"/>
 						</StackPanel>
 						
 						<Button Background="#1B44B4"
