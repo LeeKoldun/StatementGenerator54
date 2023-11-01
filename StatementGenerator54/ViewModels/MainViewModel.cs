@@ -231,6 +231,10 @@ public class MainViewModel : ViewModelBase
             case "test":
                 SelectedStatementType = WordHelper.StatementType.Test;
             break;
+            case "complexTest":
+                SelectedStatementType = WordHelper.StatementType.ComplexTest;
+            break;
+
 
             default:
                 throw new Exception("Invalid statement type!");
